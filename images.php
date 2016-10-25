@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+    <title>Multi Image Upload</title>
+    <link href="multiple-image-upload.1.0.css" type="text/css" rel="stylesheet" media="all"/>
+    <link href="font-awesome.css" type="text/css" rel="stylesheet" media="all"/>
+    <script src="jquery.js" ></script>
+    <script src="jquery-ui.min.js"></script>
+    <script src="multiple-image-upload.1.0.js"></script>
+</head>
+
+<body>
+<div class="cities-view">
+
+    
+
+    <div class="row">
+            <div class="col-md-12">
+                    <div class="portlet box blue-hoki">
+                        
+                        <div class="portlet-body">
+                            <div class="imgBox">
+                            <div class="dragBoxs">
+                                <div class="heading"><i class="fa fa-cloud-upload" style="color:#14b9d6;font-size:50px;"></i> <font size="6">Drop Images</font>&nbsp;<span style="font-style:italic;font-size:15px"> to upload (or click)</span></div>
+                                <input type="file" data-file-index='0' id='uploadPhoto' class='dragInput fileUpload' multiple />
+                            </div>
+                            <div class="photosDivSec">
+                                <div class="loadMorePicContainer"></div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+    </div>
+</div>
+
+</body>
+</html>
