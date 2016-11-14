@@ -20,7 +20,11 @@ with your html file
 for drug and drop box add the following html
 
 	<div class="dragBoxs">
-	<div class="heading"><i class="fa fa-cloud-upload" style="color:#14b9d6;font-size:50px;"></i> <font size="6">Drop Images</font>&nbsp;<span style="font-style:italic;font-size:15px"> to upload (or click)</span></div>
+	<div class="heading">
+		<i class="fa fa-cloud-upload" style="color:#14b9d6;font-size:50px;"></i> 
+		<font size="6">Drop Images</font>&nbsp;
+		<span style="font-style:italic;font-size:15px"> to upload (or click)</span>
+	</div>
 	<input type="file" data-file-index='0' id='uploadPhoto' class='dragInput fileUpload' multiple accept='image/*'/>
 	</div>
 
