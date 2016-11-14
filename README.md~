@@ -64,6 +64,22 @@ $(function(){
 
 });
 
+## Description of options
+
+     `browseBtn` = <input type="file" data-file-index='0' id='uploadPhoto' class='dragInput fileUpload' multiple accept='image/*'/>
+
+     `container` = <div class="photosDivSec"></div>  [The image container]
+
+     `pegilimit` = [Number of images will show at a time]
+     
+     `imgLoad`   = [loading images path with custom data]
+
+     `uploadImg` = [upload images path with custom data]
+
+     `removeImg` = [remove images path with custom data]
+
+
+
 
 
 
