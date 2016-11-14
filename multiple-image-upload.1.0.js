@@ -50,9 +50,13 @@ MultipleImageUploader.prototype.loadImages = function() {
     var ajax = new XMLHttpRequest();
     ajax.open("POST", uploaderObj.imgLoad.url ,true);
     var formData = new FormData();
-     $.each(uploaderObj.imgLoad.data,function(i,v){
-        formData.append(i,v);
-    })
+    if (uploaderObj.imgLoad.data != undefined) {
+       
+        $.each(uploaderObj.imgLoad.data,function(i,v){
+            formData.append(i,v);
+        })
+     
+    }
     formData.append('offset', offset);
     formData.append('limit', pegilimit);
     
@@ -198,9 +202,11 @@ MultipleImageUploader.prototype.lightBoxContainer = function() {
 MultipleImageUploader.prototype.uploadImage = function (file) {
         var formData = new FormData();
         formData.append('image', file);
-        $.each(uploaderObj.uploadImg.data,function(i,v){
-            formData.append(i,v);
-        })
+        if (uploaderObj.uploadImg.data != undefined) {
+            $.each(uploaderObj.uploadImg.data,function(i,v){
+                formData.append(i,v);
+            });
+        }
         //formData.append('id', $("input[name=id]").val());
         
         var ajax = new XMLHttpRequest();
