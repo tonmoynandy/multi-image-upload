@@ -19,50 +19,50 @@ with your html file
 
 for drug and drop box add the following html
 
-<div class="dragBoxs">
+`<div class="dragBoxs">
 <div class="heading"><i class="fa fa-cloud-upload" style="color:#14b9d6;font-size:50px;"></i> <font size="6">Drop Images</font>&nbsp;<span style="font-style:italic;font-size:15px"> to upload (or click)</span></div>
 <input type="file" data-file-index='0' id='uploadPhoto' class='dragInput fileUpload' multiple accept='image/*'/>
-</div>
+</div>`
 
 for image showing area add this following html
 
-<div class="photosDivSec">
+`<div class="photosDivSec">
 <div class="loadMorePicContainer"></div>
-</div>
+</div>`
 
 
 ### Javascript 
 
-$(function(){
-    if( $(".photosDivSec").length > 0){
-	if ($(".imgBox").length > 0) {
-	   var propertyGallery = new MultipleImageUploader();
-	    var option = {
-		            'browseBtn':"#uploadPhoto",
-		            'container':'.photosDivSec',
-		            'pegilimit': 3,
-		            'imgLoad':{
-		                'url': "action/loadmoreimages.php",
-				'data': {'id':1,'_token':'XXXXXXXXXXXX'}, //optional, here we have used data for example
-		                
-		                },
-		            'uploadImg':{
-		                'url': "action/uploadimages.php",
-				'data': {'id':1,'_token':'XXXXXXXXXXXX'}, //optional, here we have used data for example
-		                },
-		            'removeImg':{
-		                'url':"action/removeimages.php",
-				'data': {'id':1,'_token':'XXXXXXXXXXXX'}, //optional, here we have used data for example
-		            }
-		         };
-	    propertyGallery.init(option);
-	}
+	`$(function(){
+	    if( $(".photosDivSec").length > 0){
+		if ($(".imgBox").length > 0) {
+		   var propertyGallery = new MultipleImageUploader();
+		    var option = {
+				    'browseBtn':"#uploadPhoto",
+				    'container':'.photosDivSec',
+				    'pegilimit': 3,
+				    'imgLoad':{
+				        url: "action/loadmoreimages.php",
+					data: {id:1,_token:"XXXXXXXXXXXX"}, //optional, here we have used data for example
+				        
+				        },
+				    'uploadImg':{
+				        url: "action/uploadimages.php",
+					data: {id:1,_token:"XXXXXXXXXXXX"}, //optional, here we have used data for example
+				        },
+				    'removeImg':{
+				        url:"action/removeimages.php",
+					data: {id:1,_token:"XXXXXXXXXXXX"}, //optional, here we have used data for example
+				    }
+				 };
+		    propertyGallery.init(option);
+		}
 
-       
+	       
 
-    }
+	    }
 
-});
+	});`
 
 ## Description of options
 
