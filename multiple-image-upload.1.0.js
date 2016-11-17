@@ -2,6 +2,7 @@ var uploaderObj = '';
 var MultipleImageUploader = function(){
     
     uploaderObj             = this;
+    uploaderObj.upFiles       = [];
     
 };
 MultipleImageUploader.prototype.init = function(option) {
@@ -24,7 +25,7 @@ MultipleImageUploader.prototype.init = function(option) {
            uploaderObj.target.addEventListener("change",uploaderObj.preview,false);
        }
     }
-    if (option.btn !=undefined && option.btn.length > 0) {
+    if (option.btn.length > 0) {
         uploaderObj.targetBtn          = document.querySelector(option.btn);
         if (uploaderObj.targetBtn != null) {
             uploaderObj.targetBtn.addEventListener("click",uploaderObj.uploadMask,true);
@@ -46,16 +47,15 @@ MultipleImageUploader.prototype.init = function(option) {
 
 MultipleImageUploader.prototype.loadImages = function() {
     var offset = Number($('.loadMorePhoto').attr('data-offset'));
+   
     var pegilimit = Number(uploaderObj.pegilimit);
     var ajax = new XMLHttpRequest();
     ajax.open("POST", uploaderObj.imgLoad.url ,true);
     var formData = new FormData();
-    if (uploaderObj.imgLoad.data != undefined) {
-       
+    if(uploaderObj.imgLoad.data != undefined){
         $.each(uploaderObj.imgLoad.data,function(i,v){
-            formData.append(i,v);
-        })
-     
+           formData.append(i,v);
+       })
     }
     formData.append('offset', offset);
     formData.append('limit', pegilimit);
@@ -159,6 +159,13 @@ MultipleImageUploader.prototype.lightBoxContainer = function() {
    
     var container = $(uploaderObj.main_container);
     var mainContainer = $("<div/>").appendTo(container).addClass('imageLightBox image-light-box');
+    var cross = $("<div/>").appendTo(mainContainer)
+               .addClass('light-box-cross')
+               .bind('click',function(){
+                    $(".image-light-box").removeClass('active-light-box');
+                    });
+   
+    $(cross).append("<i class='fa fa-times-circle'></i>");
     $("<div/>").appendTo(mainContainer)
                 .addClass('light-box-overlay')
                 .bind('click',function(){
@@ -199,14 +206,15 @@ MultipleImageUploader.prototype.lightBoxContainer = function() {
     var imgContainer = $("<div/>").appendTo(popContainer).addClass('light-box-container');
     
 };
-MultipleImageUploader.prototype.uploadImage = function (file) {
+MultipleImageUploader.prototype.uploadImage = function (file,index) {
         var formData = new FormData();
         formData.append('image', file);
         if (uploaderObj.uploadImg.data != undefined) {
             $.each(uploaderObj.uploadImg.data,function(i,v){
                 formData.append(i,v);
-            });
+            })
         }
+       
         //formData.append('id', $("input[name=id]").val());
         
         var ajax = new XMLHttpRequest();
@@ -238,12 +246,13 @@ MultipleImageUploader.prototype.uploadImage = function (file) {
     
         ajax.upload.addEventListener("load", function (evt) {
            $(".photosDiv:eq("+ind+")").find('.photoBox').css('opacity',1);
-           $("<span/>").prependTo($(".photosDiv:eq("+ind+")"))
+           
+           $("<span/>").appendTo($(".photosDiv:eq("+ind+")"))
                                 .addClass('removePhoto')
                                 .bind('click',function(){ uploaderObj.removeImage(this) })
                                 .attr('data-item-index',ind)
                                 .append('<i class="fa fa-remove"></i>');
-           //$(".photosDiv:eq("+ind+")").prepend('<span class="removePhoto" onclick="removePhoto(this)" data-item-index="'+ind+'"><i class="fa fa-remove"></i></span>');
+          // $(".photosDiv:eq("+ind+")").prepend('<span class="removePhoto"  data-item-index="'+ind+'"><i class="fa fa-remove"></i></span>');
         
            ind = ind+1;
            $("#uploadPhoto").attr('data-file-index',ind);
@@ -253,6 +262,16 @@ MultipleImageUploader.prototype.uploadImage = function (file) {
         ajax.onreadystatechange = function() {
             if (ajax.readyState == 4 && ajax.status == 200){
                $(".photosDiv:eq("+(ind-1)+")").find('.photoBox').find('img').attr('src',ajax.responseText);
+               setTimeout(function(){
+                        var i = index+1;
+                        if (i < uploaderObj.upFiles.length) {
+                                 var reader = new FileReader();
+                                  reader.onload = function (e) {
+                                      uploaderObj.uploadImage(e.target.result,i)
+                                  }
+                                  reader.readAsDataURL(uploaderObj.upFiles[i]);
+                         }
+                },2000);
               // $(uploaderObj.loadbtn).hide();
             }
         };
@@ -269,6 +288,8 @@ MultipleImageUploader.prototype.uploadMask = function() {
 MultipleImageUploader.prototype.preview = function() {
    
    var fileList = this.files;
+   uploaderObj.upFiles = fileList;
+   
    var anyWindow = window.URL || window.webkitURL;
 
             if($(uploaderObj.main_container).find(".photosDiv").length >= uploaderObj.totalImg){
@@ -285,7 +306,7 @@ MultipleImageUploader.prototype.preview = function() {
                uploaderObj.openAlert('maximum '+uploaderObj.totalImg+' photo will be uploaded. <br/> Already '+$(uploaderObj.main_container).find(".photosDiv").length+' photos are exists.<br/>Now you can only upload '+(uploaderObj.totalImg-$(uploaderObj.main_container).find(".photosDiv").length )+' images more.');
                return false;
             }
-   
+            
             $('body,html').animate({ scrollTop : $(document).height() }, 500);
    
             for(var i = 0; i < fileList.length; i++){
@@ -307,30 +328,40 @@ MultipleImageUploader.prototype.preview = function() {
            
             $('.loadMorePicContainer').show();
             var i = 0;
-            var interval = setInterval(function(){
-                if (i< fileList.length) {
-                    if (fileList[i]) {
-                        var reader = new FileReader();
-            
-                        reader.onload = function (e) {
-                            uploaderObj.uploadImage(e.target.result)
-                        }
-                        reader.readAsDataURL(fileList[i]);
-                       
-                    }
-                    i++;
-                }
-               
-               if (i == fileList.length ) {
-                 clearInterval(interval);
-               }
-            },2000);
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                uploaderObj.uploadImage(e.target.result,i)
+            }
+            reader.readAsDataURL(fileList[i]);
+            //var interval = setInterval(function(){
+            //    if (i< fileList.length) {
+            //        if (fileList[i]) {
+            //            var reader = new FileReader();
+            //
+            //            reader.onload = function (e) {
+            //                uploaderObj.uploadImage(e.target.result)
+            //            }
+            //            reader.readAsDataURL(fileList[i]);
+            //           
+            //        }
+            //        i++;
+            //    }
+            //   
+            //   if (i == fileList.length ) {
+            //     clearInterval(interval);
+            //   }
+            //},5000);
 };
 MultipleImageUploader.prototype.removeImage = function(element) {
     $(element).parents('.photosDiv').fadeOut('slow');
     var ajax = new XMLHttpRequest();
     ajax.open("POST", uploaderObj.removeImg.url,true);
     var formData = new FormData();
+    if(uploaderObj.removeImg.data != undefined){
+        $.each(uploaderObj.removeImg.data,function(i,v){
+           formData.append(i,v);
+       })
+    }
     formData.append('image', $(element).parents('.photosDiv').find('img').attr('src'));
     ajax.send(formData);
 }
