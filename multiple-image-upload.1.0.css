@@ -203,16 +203,14 @@
   line-height: 42px;
   padding: 0 0 0 20px;
 }
-.imageLightBox .light-box-main-container .light-box-header .light-box-cross{
-  width: 42px;
-  height: 100%;
-  background: #000;
+.imageLightBox .light-box-main-container .light-box-header .light-box-cross {
   color: #fff;
-  font: 20px;
-  float: right;
-  text-align: center;
-  line-height: 40px;
   cursor: pointer;
+  float: right;
+  height: 100%;
+  line-height: 20px;
+  text-align: center;
+  width: 42px;
 }
 .imageLightBox .light-box-main-container .light-box-container{
   height: 100%;
@@ -287,10 +285,11 @@
   overflow: visible;
   width: 100%;
 }
-.photosDivSec .imageLightBox .light-box-main-container .light-box-container{
-  padding: 0;
-  min-width: 100%;
+.photosDivSec .imageLightBox .light-box-main-container .light-box-container {
   max-width: 60%;
+  min-width: 100%;
+  padding: 81px 10px !important;
+  line-height: 27px !important;
 }
 .clear{clear: both}
 .no_display{display: none !important;}
@@ -341,12 +340,12 @@
 }
 .light-box-cross {
   color: #fff;
-  font-size: 33px;
-  padding: 10px;
-  position: absolute;
-  right: 7px;
-  top: 10px;
-  z-index: 999;
   cursor: pointer;
+  font-size: 33px;
+  padding: 2px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 999;
 }
 @media (max-width: 979px) {.removePhoto {padding: 0px 5px;right:3px;top:3px;}}

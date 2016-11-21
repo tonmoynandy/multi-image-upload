@@ -270,8 +270,11 @@ MultipleImageUploader.prototype.uploadImage = function (file,index) {
                                       uploaderObj.uploadImage(e.target.result,i)
                                   }
                                   reader.readAsDataURL(uploaderObj.upFiles[i]);
+                         }else if (i == uploaderObj.upFiles.length) {
+                            var message ='All Pictures are uploaded successfully';
+                            uploaderObj.alert(message);
                          }
-                },2000);
+                },600);
               // $(uploaderObj.loadbtn).hide();
             }
         };
@@ -281,6 +284,10 @@ MultipleImageUploader.prototype.uploadImage = function (file,index) {
          
         
     }
+MultipleImageUploader.prototype.alert = function(message){
+        $(".alert-light-box .light-box-container").html(message);
+        $(".alert-light-box").addClass('active-light-box');
+};
 MultipleImageUploader.prototype.uploadMask = function() {
     
     uploaderObj.target.click();
